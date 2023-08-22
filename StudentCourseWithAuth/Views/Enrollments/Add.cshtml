@@ -1,0 +1,58 @@
+﻿@model StudentCourseWithAuth.Models.Enrollment
+@inject IRepository<Student> studentRepo
+@inject IRepository<Course> courseRepo
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+
+<h1>EnrollStudent</h1>
+
+<h4>Enroll</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="StudentId" class="control-label"></label>
+                <select asp-for="StudentId" class="form-control">
+                    <option value="">Select a Student</option>
+                    @foreach (var student in studentRepo.GetAll())
+                    {
+                        <option value="@student.StudentId">@student.StudentName</option>
+                    }
+                </select>
+                <span asp-validation-for="StudentId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CourseId" class="control-label"></label>
+                <select asp-for="CourseId" class="form-control">
+                    <option value="">Select a Course</option>
+                    @foreach (var course in courseRepo.GetAll())
+                    {
+                        <option value="@course.CourseId">@course.CourseName</option>
+                    }
+                </select>
+                <span asp-validation-for="CourseId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
